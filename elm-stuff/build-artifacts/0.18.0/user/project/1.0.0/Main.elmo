@@ -1,0 +1,444 @@
+var _user$project$Main$lineHasBeenMade = function (_p0) {
+	var _p1 = _p0;
+	return _elm_lang$core$Native_Utils.eq(_p1._1, 0) ? false : true;
+};
+var _user$project$Main$getResponseTuple = function (dot) {
+	return {ctor: '_Tuple2', _0: dot.pk, _1: dot.fk};
+};
+var _user$project$Main$getResponseList = function (model) {
+	var responseList = A2(_elm_lang$core$List$map, _user$project$Main$getResponseTuple, model.groupA);
+	return responseList;
+};
+var _user$project$Main$checkAnswers = function (model) {
+	var responseList = _user$project$Main$getResponseList(model);
+	var linesMadeList = A2(_elm_lang$core$List$filter, _user$project$Main$lineHasBeenMade, responseList);
+	return (!_elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$List$length(responseList),
+		_elm_lang$core$List$length(linesMadeList))) ? A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{ctor: '[]'}) : (_elm_lang$core$Native_Utils.eq(
+		_user$project$Main$getResponseList(model),
+		model.answerList) ? A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$style(
+				{
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'color', _1: 'green'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'font', _1: 'bold 40px'},
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$svg$Svg$text('CONGRATS!'),
+			_1: {ctor: '[]'}
+		}) : A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$style(
+				{
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'color', _1: 'RED'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'font', _1: 'bold 40px'},
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$svg$Svg$text('TRY AGAIN.'),
+			_1: {ctor: '[]'}
+		}));
+};
+var _user$project$Main$updateLineEndPosition = F2(
+	function (pos, dot) {
+		return _elm_lang$core$Native_Utils.update(
+			dot,
+			{
+				lineEndPosition: {ctor: '_Tuple2', _0: pos.x, _1: pos.y}
+			});
+	});
+var _user$project$Main$dotIdentityFunction = F2(
+	function (desiredDot, dummyDot) {
+		return {pk: desiredDot.pk, fk: desiredDot.fk, text: desiredDot.text, position: desiredDot.position, lineEndPosition: desiredDot.lineEndPosition};
+	});
+var _user$project$Main$addPoints = F2(
+	function (dot1, dot2) {
+		return {
+			ctor: '_Tuple2',
+			_0: _elm_lang$core$Tuple$first(dot1) + _elm_lang$core$Tuple$first(dot2),
+			_1: _elm_lang$core$Tuple$second(dot1) + _elm_lang$core$Tuple$second(dot2)
+		};
+	});
+var _user$project$Main$dotIdentity = {
+	pk: 0,
+	fk: 0,
+	text: 'String',
+	position: {ctor: '_Tuple2', _0: 0, _1: 0},
+	lineEndPosition: {ctor: '_Tuple2', _0: 0, _1: 0}
+};
+var _user$project$Main$hasPK = F2(
+	function (key, dot) {
+		return _elm_lang$core$Native_Utils.eq(dot.pk, key) ? true : false;
+	});
+var _user$project$Main$update = F2(
+	function (msg, model) {
+		var _p2 = msg;
+		switch (_p2.ctor) {
+			case 'MouseMove':
+				if (_elm_lang$core$Native_Utils.eq(model.drawing, true)) {
+					var newGroupA = A3(
+						_elm_community$list_extra$List_Extra$updateIf,
+						_user$project$Main$hasPK(model.currentPK),
+						_user$project$Main$updateLineEndPosition(_p2._0),
+						model.groupA);
+					var model_ = _elm_lang$core$Native_Utils.update(
+						model,
+						{groupA: newGroupA});
+					return {ctor: '_Tuple2', _0: model_, _1: _elm_lang$core$Platform_Cmd$none};
+				} else {
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						model,
+						{ctor: '[]'});
+				}
+			case 'ChangePK':
+				var _p3 = _p2._0;
+				var allDots = A2(_elm_lang$core$Basics_ops['++'], model.groupA, model.groupB);
+				var intermediaryDotList = A2(
+					_elm_lang$core$List$filter,
+					_user$project$Main$hasPK(model.currentPK),
+					allDots);
+				var activeDot = A3(_elm_lang$core$List$foldr, _user$project$Main$dotIdentityFunction, _user$project$Main$dotIdentity, intermediaryDotList);
+				if (_elm_lang$core$Native_Utils.eq(
+					A2(_elm_lang$core$List$member, activeDot, model.groupA),
+					true)) {
+					var newActiveDot = _elm_lang$core$Native_Utils.update(
+						activeDot,
+						{fk: _p3});
+					var newGroupA = A3(
+						_elm_community$list_extra$List_Extra$replaceIf,
+						_user$project$Main$hasPK(model.currentPK),
+						newActiveDot,
+						model.groupA);
+					var model_ = _elm_lang$core$Native_Utils.update(
+						model,
+						{groupA: newGroupA, currentPK: _p3});
+					return {ctor: '_Tuple2', _0: model_, _1: _elm_lang$core$Platform_Cmd$none};
+				} else {
+					var model_ = _elm_lang$core$Native_Utils.update(
+						model,
+						{currentPK: _p3});
+					return {ctor: '_Tuple2', _0: model_, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			default:
+				var allDots = A2(_elm_lang$core$Basics_ops['++'], model.groupA, model.groupB);
+				var intermediaryDotList = A2(
+					_elm_lang$core$List$filter,
+					_user$project$Main$hasPK(model.currentPK),
+					allDots);
+				var activeDot = A3(_elm_lang$core$List$foldr, _user$project$Main$dotIdentityFunction, _user$project$Main$dotIdentity, intermediaryDotList);
+				return _elm_lang$core$Native_Utils.eq(
+					A2(_elm_lang$core$List$member, activeDot, model.groupA),
+					true) ? {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{drawing: true}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				} : {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{drawing: false}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+		}
+	});
+var _user$project$Main$makeText = F3(
+	function (x, y, caption) {
+		return A2(
+			_elm_lang$svg$Svg$text_,
+			{
+				ctor: '::',
+				_0: _elm_lang$svg$Svg_Attributes$x(
+					_elm_lang$core$Basics$toString(x)),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$svg$Svg_Attributes$y(
+						_elm_lang$core$Basics$toString(y)),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$svg$Svg_Attributes$fontSize('25px'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$svg$Svg_Attributes$fontFamily('sans-serif'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$svg$Svg_Attributes$fill('black'),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$svg$Svg$text(caption),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Main$baseModel = {
+	groupA: {
+		ctor: '::',
+		_0: {
+			pk: 1,
+			lineEndPosition: {ctor: '_Tuple2', _0: 500, _1: 250},
+			position: {ctor: '_Tuple2', _0: 200, _1: 100},
+			fk: 0,
+			text: 'One'
+		},
+		_1: {
+			ctor: '::',
+			_0: {
+				pk: 2,
+				lineEndPosition: {ctor: '_Tuple2', _0: 500, _1: 250},
+				position: {ctor: '_Tuple2', _0: 200, _1: 200},
+				fk: 0,
+				text: 'Two'
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					pk: 3,
+					lineEndPosition: {ctor: '_Tuple2', _0: 500, _1: 250},
+					position: {ctor: '_Tuple2', _0: 200, _1: 300},
+					fk: 0,
+					text: 'Three'
+				},
+				_1: {ctor: '[]'}
+			}
+		}
+	},
+	groupB: {
+		ctor: '::',
+		_0: {
+			pk: 4,
+			lineEndPosition: {ctor: '_Tuple2', _0: 500, _1: 250},
+			position: {ctor: '_Tuple2', _0: 800, _1: 150},
+			fk: 0,
+			text: 'Four'
+		},
+		_1: {
+			ctor: '::',
+			_0: {
+				pk: 5,
+				lineEndPosition: {ctor: '_Tuple2', _0: 500, _1: 250},
+				position: {ctor: '_Tuple2', _0: 800, _1: 250},
+				fk: 0,
+				text: 'Five'
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					pk: 6,
+					lineEndPosition: {ctor: '_Tuple2', _0: 500, _1: 250},
+					position: {ctor: '_Tuple2', _0: 800, _1: 350},
+					fk: 0,
+					text: 'Six'
+				},
+				_1: {ctor: '[]'}
+			}
+		}
+	},
+	currentPosition: {ctor: '_Tuple2', _0: 0, _1: 0},
+	currentPK: 0,
+	drawing: false,
+	answerList: {
+		ctor: '::',
+		_0: {ctor: '_Tuple2', _0: 1, _1: 5},
+		_1: {
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 2, _1: 6},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 3, _1: 4},
+				_1: {ctor: '[]'}
+			}
+		}
+	}
+};
+var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$Main$baseModel, _1: _elm_lang$core$Platform_Cmd$none};
+var _user$project$Main$Model = F6(
+	function (a, b, c, d, e, f) {
+		return {groupA: a, groupB: b, currentPosition: c, currentPK: d, drawing: e, answerList: f};
+	});
+var _user$project$Main$Dot = F5(
+	function (a, b, c, d, e) {
+		return {pk: a, fk: b, text: c, position: d, lineEndPosition: e};
+	});
+var _user$project$Main$ToggleDrawing = {ctor: 'ToggleDrawing'};
+var _user$project$Main$ChangePK = function (a) {
+	return {ctor: 'ChangePK', _0: a};
+};
+var _user$project$Main$makePoint = F3(
+	function (x, y, key) {
+		return A2(
+			_elm_lang$svg$Svg$circle,
+			{
+				ctor: '::',
+				_0: _elm_lang$svg$Svg_Attributes$cx(
+					_elm_lang$core$Basics$toString(x)),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$svg$Svg_Attributes$cy(
+						_elm_lang$core$Basics$toString(y)),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$svg$Svg_Attributes$r('12'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$svg$Svg_Attributes$fill('navyblue'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$svg$Svg_Events$onClick(
+									_user$project$Main$ChangePK(key)),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			},
+			{ctor: '[]'});
+	});
+var _user$project$Main$makeTextPoint = F4(
+	function (x, y, key, caption) {
+		return A2(
+			_elm_lang$svg$Svg$g,
+			{
+				ctor: '::',
+				_0: _elm_lang$svg$Svg_Events$onClick(_user$project$Main$ToggleDrawing),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A3(_user$project$Main$makePoint, x, y, key),
+				_1: {
+					ctor: '::',
+					_0: A3(_user$project$Main$makeText, x + 10, y - 10, caption),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
+var _user$project$Main$dotToTextPoint = function (dot) {
+	return A4(
+		_user$project$Main$makeTextPoint,
+		_elm_lang$core$Tuple$first(dot.position),
+		_elm_lang$core$Tuple$second(dot.position),
+		dot.pk,
+		dot.text);
+};
+var _user$project$Main$view = function (model) {
+	var intermediaryDotList = A2(
+		_elm_lang$core$List$filter,
+		_user$project$Main$hasPK(1),
+		model.groupA);
+	var firstDot = A3(_elm_lang$core$List$foldr, _user$project$Main$dotIdentityFunction, _user$project$Main$dotIdentity, intermediaryDotList);
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$svg$Svg$svg,
+				{
+					ctor: '::',
+					_0: _elm_lang$svg$Svg_Attributes$viewBox('0 0 1000 500'),
+					_1: {ctor: '[]'}
+				},
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_elm_lang$core$List$singleton(
+						A2(
+							_elm_lang$svg$Svg$line,
+							{
+								ctor: '::',
+								_0: _elm_lang$svg$Svg_Attributes$x1(
+									_elm_lang$core$Basics$toString(
+										_elm_lang$core$Tuple$first(firstDot.position))),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$svg$Svg_Attributes$y1(
+										_elm_lang$core$Basics$toString(
+											_elm_lang$core$Tuple$second(firstDot.position))),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$svg$Svg_Attributes$x2(
+											_elm_lang$core$Basics$toString(
+												_elm_lang$core$Tuple$first(firstDot.lineEndPosition))),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$svg$Svg_Attributes$y2(
+												_elm_lang$core$Basics$toString(
+													_elm_lang$core$Tuple$second(firstDot.lineEndPosition))),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$svg$Svg_Attributes$stroke('red'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$svg$Svg_Attributes$strokeWidth('5'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$svg$Svg_Attributes$z('-1'),
+														_1: {ctor: '[]'}
+													}
+												}
+											}
+										}
+									}
+								}
+							},
+							{ctor: '[]'})),
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						A2(_elm_lang$core$List$map, _user$project$Main$dotToTextPoint, model.groupA),
+						A2(_elm_lang$core$List$map, _user$project$Main$dotToTextPoint, model.groupB)))),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$svg$Svg$text(
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_elm_lang$core$Basics$toString(model.currentPK),
+						_elm_lang$core$Basics$toString(model.drawing))),
+				_1: {
+					ctor: '::',
+					_0: _user$project$Main$checkAnswers(model),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+var _user$project$Main$MouseMove = function (a) {
+	return {ctor: 'MouseMove', _0: a};
+};
+var _user$project$Main$subscriptions = function (model) {
+	return _elm_lang$mouse$Mouse$moves(_user$project$Main$MouseMove);
+};
+var _user$project$Main$main = _elm_lang$html$Html$program(
+	{init: _user$project$Main$init, view: _user$project$Main$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions})();
+var _user$project$Main$Connections = F2(
+	function (a, b) {
+		return {ctor: 'Connections', _0: a, _1: b};
+	});
+var _user$project$Main$SomeDotsUnconnected = {ctor: 'SomeDotsUnconnected'};
