@@ -44,9 +44,9 @@ type alias Dot =
 baseModel : Model
 baseModel =
     { groupA =
-        [ { pk = 1, lineEndPosition = ( 500, 250 ), position = ( 200, 100 ), fk = 0, text = "One" }
-        , { pk = 2, lineEndPosition = ( 500, 250 ), position = ( 200, 200 ), fk = 0, text = "Two" }
-        , { pk = 3, lineEndPosition = ( 500, 250 ), position = ( 200, 300 ), fk = 0, text = "Three" }
+        [ { pk = 1, lineEndPosition = ( 200, 100 ), position = ( 200, 100 ), fk = 0, text = "One" }
+        , { pk = 2, lineEndPosition = ( 200, 200 ), position = ( 200, 200 ), fk = 0, text = "Two" }
+        , { pk = 3, lineEndPosition = ( 200, 300 ), position = ( 200, 300 ), fk = 0, text = "Three" }
         ]
     , groupB =
         [ { pk = 4, lineEndPosition = ( 500, 250 ), position = ( 800, 150 ), fk = 0, text = "Four" }
@@ -288,8 +288,10 @@ view model =
         , makeTextPoint 100 300 "cool!"
         ] --}
     let   
-        --this might need to change if the 
+        --this might need to change if the pks are not in order. 
         firstDot = getDotWithPK 1 model
+        secondDot = getDotWithPK 2 model
+        thirdDot = getDotWithPK 3 model 
 
     
     in
@@ -306,6 +308,24 @@ view model =
                         , Sattr.y1 <| toString <| (Tuple.second firstDot.position)
                         , Sattr.x2 <| toString <| (Tuple.first firstDot.lineEndPosition)
                         , Sattr.y2 <| toString <| (Tuple.second firstDot.lineEndPosition)
+                        , Sattr.stroke "red"
+                        , Sattr.strokeWidth "5"
+                        , Sattr.z "-1"
+                        ] [] )
+                    ++ List.singleton (Svg.line
+                        [ Sattr.x1 <| toString <| (Tuple.first secondDot.position)
+                        , Sattr.y1 <| toString <| (Tuple.second secondDot.position)
+                        , Sattr.x2 <| toString <| (Tuple.first secondDot.lineEndPosition)
+                        , Sattr.y2 <| toString <| (Tuple.second secondDot.lineEndPosition)
+                        , Sattr.stroke "red"
+                        , Sattr.strokeWidth "5"
+                        , Sattr.z "-1"
+                        ] [] )
+                    ++ List.singleton (Svg.line
+                        [ Sattr.x1 <| toString <| (Tuple.first thirdDot.position)
+                        , Sattr.y1 <| toString <| (Tuple.second thirdDot.position)
+                        , Sattr.x2 <| toString <| (Tuple.first thirdDot.lineEndPosition)
+                        , Sattr.y2 <| toString <| (Tuple.second thirdDot.lineEndPosition)
                         , Sattr.stroke "red"
                         , Sattr.strokeWidth "5"
                         , Sattr.z "-1"
