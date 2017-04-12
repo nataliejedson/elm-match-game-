@@ -167,9 +167,6 @@ dotIdentity =
     , lineEndPosition = (0,0) 
     }
 
-addPoints: Point -> Point -> Point
-addPoints dot1 dot2 =
-    ( ( (Tuple.first dot1) + (Tuple.first dot2) ), ( (Tuple.second dot1) + (Tuple.second dot2) ) ) 
 
 dotIdentityFunction: Dot -> Dot -> Dot 
 -- use this with foldr to retrieve single dot element w/o having to deal with maybe types 
@@ -180,6 +177,19 @@ dotIdentityFunction desiredDot dummyDot =
     , position = desiredDot.position
     , lineEndPosition = desiredDot.lineEndPosition 
     }
+
+getDotWithPK: Int -> Model -> Dot 
+getDotWithPK pk model = 
+    let
+        allDots = model.groupA ++ model.groupB
+        intermediaryDotList = List.filter (hasPK pk) allDots
+        desiredDot = List.foldr dotIdentityFunction dotIdentity intermediaryDotList 
+    in
+        desiredDot
+
+getActiveDot: Model -> Dot 
+getActiveDot model =
+    getDotWithPK (model.currentPK) model
 
 type Msg
     = MouseMove Mouse.Position
@@ -192,7 +202,6 @@ type Msg
 updateLineEndPosition: Position -> Dot -> Dot
 updateLineEndPosition pos dot= 
     {dot | lineEndPosition = (pos.x, pos.y) } 
-
 
 
 
@@ -234,10 +243,8 @@ update msg model =
             in
                 (model_ , Cmd.none ) --}
             let 
-                allDots = model.groupA ++ model.groupB
-                intermediaryDotList = List.filter (hasPK model.currentPK) allDots
-                activeDot = List.foldr dotIdentityFunction dotIdentity intermediaryDotList 
-            in
+                activeDot = getActiveDot model  
+            in    
                 if List.member activeDot model.groupA == True then     
                      let
                          newActiveDot = { activeDot | fk = b } 
@@ -260,10 +267,8 @@ update msg model =
                 
         ToggleDrawing -> 
             let 
-                allDots = model.groupA ++ model.groupB
-                intermediaryDotList = List.filter (hasPK model.currentPK) allDots
-                activeDot = List.foldr dotIdentityFunction dotIdentity intermediaryDotList 
-            in
+                activeDot = getActiveDot model  
+            in 
                 if List.member activeDot model.groupA == True then 
                     ( {model | drawing = True}, Cmd.none ) 
                 else 
@@ -283,8 +288,9 @@ view model =
         , makeTextPoint 100 300 "cool!"
         ] --}
     let   
-        intermediaryDotList = List.filter (hasPK 1) model.groupA
-        firstDot = List.foldr dotIdentityFunction dotIdentity intermediaryDotList
+        --this might need to change if the 
+        firstDot = getDotWithPK 1 model
+
     
     in
         Html.div []{--
