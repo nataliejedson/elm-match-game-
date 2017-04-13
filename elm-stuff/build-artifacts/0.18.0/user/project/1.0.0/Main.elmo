@@ -73,14 +73,6 @@ var _user$project$Main$dotIdentityFunction = F2(
 	function (desiredDot, dummyDot) {
 		return {pk: desiredDot.pk, fk: desiredDot.fk, text: desiredDot.text, position: desiredDot.position, lineEndPosition: desiredDot.lineEndPosition};
 	});
-var _user$project$Main$addPoints = F2(
-	function (dot1, dot2) {
-		return {
-			ctor: '_Tuple2',
-			_0: _elm_lang$core$Tuple$first(dot1) + _elm_lang$core$Tuple$first(dot2),
-			_1: _elm_lang$core$Tuple$second(dot1) + _elm_lang$core$Tuple$second(dot2)
-		};
-	});
 var _user$project$Main$dotIdentity = {
 	pk: 0,
 	fk: 0,
@@ -92,6 +84,19 @@ var _user$project$Main$hasPK = F2(
 	function (key, dot) {
 		return _elm_lang$core$Native_Utils.eq(dot.pk, key) ? true : false;
 	});
+var _user$project$Main$getDotWithPK = F2(
+	function (pk, model) {
+		var allDots = A2(_elm_lang$core$Basics_ops['++'], model.groupA, model.groupB);
+		var intermediaryDotList = A2(
+			_elm_lang$core$List$filter,
+			_user$project$Main$hasPK(pk),
+			allDots);
+		var desiredDot = A3(_elm_lang$core$List$foldr, _user$project$Main$dotIdentityFunction, _user$project$Main$dotIdentity, intermediaryDotList);
+		return desiredDot;
+	});
+var _user$project$Main$getActiveDot = function (model) {
+	return A2(_user$project$Main$getDotWithPK, model.currentPK, model);
+};
 var _user$project$Main$update = F2(
 	function (msg, model) {
 		var _p2 = msg;
@@ -115,12 +120,7 @@ var _user$project$Main$update = F2(
 				}
 			case 'ChangePK':
 				var _p3 = _p2._0;
-				var allDots = A2(_elm_lang$core$Basics_ops['++'], model.groupA, model.groupB);
-				var intermediaryDotList = A2(
-					_elm_lang$core$List$filter,
-					_user$project$Main$hasPK(model.currentPK),
-					allDots);
-				var activeDot = A3(_elm_lang$core$List$foldr, _user$project$Main$dotIdentityFunction, _user$project$Main$dotIdentity, intermediaryDotList);
+				var activeDot = _user$project$Main$getActiveDot(model);
 				if (_elm_lang$core$Native_Utils.eq(
 					A2(_elm_lang$core$List$member, activeDot, model.groupA),
 					true)) {
@@ -143,12 +143,7 @@ var _user$project$Main$update = F2(
 					return {ctor: '_Tuple2', _0: model_, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 			default:
-				var allDots = A2(_elm_lang$core$Basics_ops['++'], model.groupA, model.groupB);
-				var intermediaryDotList = A2(
-					_elm_lang$core$List$filter,
-					_user$project$Main$hasPK(model.currentPK),
-					allDots);
-				var activeDot = A3(_elm_lang$core$List$foldr, _user$project$Main$dotIdentityFunction, _user$project$Main$dotIdentity, intermediaryDotList);
+				var activeDot = _user$project$Main$getActiveDot(model);
 				return _elm_lang$core$Native_Utils.eq(
 					A2(_elm_lang$core$List$member, activeDot, model.groupA),
 					true) ? {
@@ -204,7 +199,7 @@ var _user$project$Main$baseModel = {
 		ctor: '::',
 		_0: {
 			pk: 1,
-			lineEndPosition: {ctor: '_Tuple2', _0: 500, _1: 250},
+			lineEndPosition: {ctor: '_Tuple2', _0: 200, _1: 100},
 			position: {ctor: '_Tuple2', _0: 200, _1: 100},
 			fk: 0,
 			text: 'One'
@@ -213,7 +208,7 @@ var _user$project$Main$baseModel = {
 			ctor: '::',
 			_0: {
 				pk: 2,
-				lineEndPosition: {ctor: '_Tuple2', _0: 500, _1: 250},
+				lineEndPosition: {ctor: '_Tuple2', _0: 200, _1: 200},
 				position: {ctor: '_Tuple2', _0: 200, _1: 200},
 				fk: 0,
 				text: 'Two'
@@ -222,7 +217,7 @@ var _user$project$Main$baseModel = {
 				ctor: '::',
 				_0: {
 					pk: 3,
-					lineEndPosition: {ctor: '_Tuple2', _0: 500, _1: 250},
+					lineEndPosition: {ctor: '_Tuple2', _0: 200, _1: 300},
 					position: {ctor: '_Tuple2', _0: 200, _1: 300},
 					fk: 0,
 					text: 'Three'
@@ -350,11 +345,9 @@ var _user$project$Main$dotToTextPoint = function (dot) {
 		dot.text);
 };
 var _user$project$Main$view = function (model) {
-	var intermediaryDotList = A2(
-		_elm_lang$core$List$filter,
-		_user$project$Main$hasPK(1),
-		model.groupA);
-	var firstDot = A3(_elm_lang$core$List$foldr, _user$project$Main$dotIdentityFunction, _user$project$Main$dotIdentity, intermediaryDotList);
+	var thirdDot = A2(_user$project$Main$getDotWithPK, 3, model);
+	var secondDot = A2(_user$project$Main$getDotWithPK, 2, model);
+	var firstDot = A2(_user$project$Main$getDotWithPK, 1, model);
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -412,8 +405,94 @@ var _user$project$Main$view = function (model) {
 							{ctor: '[]'})),
 					A2(
 						_elm_lang$core$Basics_ops['++'],
-						A2(_elm_lang$core$List$map, _user$project$Main$dotToTextPoint, model.groupA),
-						A2(_elm_lang$core$List$map, _user$project$Main$dotToTextPoint, model.groupB)))),
+						_elm_lang$core$List$singleton(
+							A2(
+								_elm_lang$svg$Svg$line,
+								{
+									ctor: '::',
+									_0: _elm_lang$svg$Svg_Attributes$x1(
+										_elm_lang$core$Basics$toString(
+											_elm_lang$core$Tuple$first(secondDot.position))),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$svg$Svg_Attributes$y1(
+											_elm_lang$core$Basics$toString(
+												_elm_lang$core$Tuple$second(secondDot.position))),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$svg$Svg_Attributes$x2(
+												_elm_lang$core$Basics$toString(
+													_elm_lang$core$Tuple$first(secondDot.lineEndPosition))),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$svg$Svg_Attributes$y2(
+													_elm_lang$core$Basics$toString(
+														_elm_lang$core$Tuple$second(secondDot.lineEndPosition))),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$svg$Svg_Attributes$stroke('red'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$svg$Svg_Attributes$strokeWidth('5'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$svg$Svg_Attributes$z('-1'),
+															_1: {ctor: '[]'}
+														}
+													}
+												}
+											}
+										}
+									}
+								},
+								{ctor: '[]'})),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							_elm_lang$core$List$singleton(
+								A2(
+									_elm_lang$svg$Svg$line,
+									{
+										ctor: '::',
+										_0: _elm_lang$svg$Svg_Attributes$x1(
+											_elm_lang$core$Basics$toString(
+												_elm_lang$core$Tuple$first(thirdDot.position))),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$svg$Svg_Attributes$y1(
+												_elm_lang$core$Basics$toString(
+													_elm_lang$core$Tuple$second(thirdDot.position))),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$svg$Svg_Attributes$x2(
+													_elm_lang$core$Basics$toString(
+														_elm_lang$core$Tuple$first(thirdDot.lineEndPosition))),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$svg$Svg_Attributes$y2(
+														_elm_lang$core$Basics$toString(
+															_elm_lang$core$Tuple$second(thirdDot.lineEndPosition))),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$svg$Svg_Attributes$stroke('red'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$svg$Svg_Attributes$strokeWidth('5'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$svg$Svg_Attributes$z('-1'),
+																_1: {ctor: '[]'}
+															}
+														}
+													}
+												}
+											}
+										}
+									},
+									{ctor: '[]'})),
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								A2(_elm_lang$core$List$map, _user$project$Main$dotToTextPoint, model.groupA),
+								A2(_elm_lang$core$List$map, _user$project$Main$dotToTextPoint, model.groupB)))))),
 			_1: {
 				ctor: '::',
 				_0: _elm_lang$svg$Svg$text(

@@ -18,6 +18,8 @@ init =
 
 
 
+
+
 --MODEL
 
 --assumes that answerList is ordered by the first value in the tuple
@@ -44,19 +46,19 @@ type alias Dot =
 baseModel : Model
 baseModel =
     { groupA =
-        [ { pk = 1, lineEndPosition = ( 200, 100 ), position = ( 200, 100 ), fk = 0, text = "One" }
-        , { pk = 2, lineEndPosition = ( 200, 200 ), position = ( 200, 200 ), fk = 0, text = "Two" }
-        , { pk = 3, lineEndPosition = ( 200, 300 ), position = ( 200, 300 ), fk = 0, text = "Three" }
+        [ { pk = 1, lineEndPosition = ( 200, 100 ), position = ( 200, 100 ), fk = 0, text = "Daisy" }
+        , { pk = 2, lineEndPosition = ( 200, 200 ), position = ( 200, 200 ), fk = 0, text = "Dog" }
+        , { pk = 3, lineEndPosition = ( 200, 300 ), position = ( 200, 300 ), fk = 0, text = "Salt" }
         ]
     , groupB =
-        [ { pk = 4, lineEndPosition = ( 500, 250 ), position = ( 800, 150 ), fk = 0, text = "Four" }
-        , { pk = 5, lineEndPosition = ( 500, 250 ), position = ( 800, 250 ), fk = 0, text = "Five" }
-        , { pk = 6, lineEndPosition = ( 500, 250 ), position = ( 800, 350 ), fk = 0, text = "Six" }
+        [ { pk = 4, lineEndPosition = ( 500, 250 ), position = ( 800, 150 ), fk = 0, text = "Animal" }
+        , { pk = 5, lineEndPosition = ( 500, 250 ), position = ( 800, 250 ), fk = 0, text = "Mineral" }
+        , { pk = 6, lineEndPosition = ( 500, 250 ), position = ( 800, 350 ), fk = 0, text = "Plant" }
         ]
     , currentPosition = (0,0) 
     , currentPK = 0
     , drawing = False
-    , answerList = [(1,5), (2,6), (3,4)]
+    , answerList = [(1,6), (2,4), (3,5)]
     }
 
 
@@ -95,7 +97,7 @@ makeTextPoint x y key caption =
         [ Sevents.onClick (ToggleDrawing)
         ]
         [ makePoint x y key
-        , makeText (x + 10) (y - 10) caption
+        , makeText (x + 15) (y - 1) caption
         ]
 
 
@@ -372,7 +374,7 @@ checkAnswers model =
             Html.div [ 
                 Htmla.style 
                     [ ("color", "green") 
-                    , ("font", "bold 40px") 
+                    , ("font", "bold 3em") 
                     ]
                 ]
                 [ text "CONGRATS!" ]
@@ -380,7 +382,7 @@ checkAnswers model =
             Html.div[ 
                 Htmla.style 
                     [ ("color", "RED") 
-                    , ("font", "bold 40px") 
+                    , ("font", "bold 3em ") 
                     ]
                 ]
                 [ text "TRY AGAIN." ]
