@@ -29,8 +29,12 @@ var _user$project$Main$checkAnswers = function (model) {
 					_0: {ctor: '_Tuple2', _0: 'color', _1: 'green'},
 					_1: {
 						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'font', _1: 'bold 40px'},
-						_1: {ctor: '[]'}
+						_0: {ctor: '_Tuple2', _0: 'font-size', _1: '3em '},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'font-family', _1: 'sans-serif'},
+							_1: {ctor: '[]'}
+						}
 					}
 				}),
 			_1: {ctor: '[]'}
@@ -49,8 +53,12 @@ var _user$project$Main$checkAnswers = function (model) {
 					_0: {ctor: '_Tuple2', _0: 'color', _1: 'RED'},
 					_1: {
 						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'font', _1: 'bold 40px'},
-						_1: {ctor: '[]'}
+						_0: {ctor: '_Tuple2', _0: 'font-size', _1: '3em '},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'font-family', _1: 'sans-serif'},
+							_1: {ctor: '[]'}
+						}
 					}
 				}),
 			_1: {ctor: '[]'}
@@ -202,7 +210,7 @@ var _user$project$Main$baseModel = {
 			lineEndPosition: {ctor: '_Tuple2', _0: 200, _1: 100},
 			position: {ctor: '_Tuple2', _0: 200, _1: 100},
 			fk: 0,
-			text: 'One'
+			text: 'Daisy'
 		},
 		_1: {
 			ctor: '::',
@@ -211,7 +219,7 @@ var _user$project$Main$baseModel = {
 				lineEndPosition: {ctor: '_Tuple2', _0: 200, _1: 200},
 				position: {ctor: '_Tuple2', _0: 200, _1: 200},
 				fk: 0,
-				text: 'Two'
+				text: 'Dog'
 			},
 			_1: {
 				ctor: '::',
@@ -220,7 +228,7 @@ var _user$project$Main$baseModel = {
 					lineEndPosition: {ctor: '_Tuple2', _0: 200, _1: 300},
 					position: {ctor: '_Tuple2', _0: 200, _1: 300},
 					fk: 0,
-					text: 'Three'
+					text: 'Salt'
 				},
 				_1: {ctor: '[]'}
 			}
@@ -233,7 +241,7 @@ var _user$project$Main$baseModel = {
 			lineEndPosition: {ctor: '_Tuple2', _0: 500, _1: 250},
 			position: {ctor: '_Tuple2', _0: 800, _1: 150},
 			fk: 0,
-			text: 'Four'
+			text: 'Animal'
 		},
 		_1: {
 			ctor: '::',
@@ -242,7 +250,7 @@ var _user$project$Main$baseModel = {
 				lineEndPosition: {ctor: '_Tuple2', _0: 500, _1: 250},
 				position: {ctor: '_Tuple2', _0: 800, _1: 250},
 				fk: 0,
-				text: 'Five'
+				text: 'Mineral'
 			},
 			_1: {
 				ctor: '::',
@@ -251,7 +259,7 @@ var _user$project$Main$baseModel = {
 					lineEndPosition: {ctor: '_Tuple2', _0: 500, _1: 250},
 					position: {ctor: '_Tuple2', _0: 800, _1: 350},
 					fk: 0,
-					text: 'Six'
+					text: 'Plant'
 				},
 				_1: {ctor: '[]'}
 			}
@@ -262,13 +270,13 @@ var _user$project$Main$baseModel = {
 	drawing: false,
 	answerList: {
 		ctor: '::',
-		_0: {ctor: '_Tuple2', _0: 1, _1: 5},
+		_0: {ctor: '_Tuple2', _0: 1, _1: 6},
 		_1: {
 			ctor: '::',
-			_0: {ctor: '_Tuple2', _0: 2, _1: 6},
+			_0: {ctor: '_Tuple2', _0: 2, _1: 4},
 			_1: {
 				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: 3, _1: 4},
+				_0: {ctor: '_Tuple2', _0: 3, _1: 5},
 				_1: {ctor: '[]'}
 			}
 		}
@@ -331,7 +339,7 @@ var _user$project$Main$makeTextPoint = F4(
 				_0: A3(_user$project$Main$makePoint, x, y, key),
 				_1: {
 					ctor: '::',
-					_0: A3(_user$project$Main$makeText, x + 10, y - 10, caption),
+					_0: A3(_user$project$Main$makeText, x + 15, y - 1, caption),
 					_1: {ctor: '[]'}
 				}
 			});
@@ -495,16 +503,8 @@ var _user$project$Main$view = function (model) {
 								A2(_elm_lang$core$List$map, _user$project$Main$dotToTextPoint, model.groupB)))))),
 			_1: {
 				ctor: '::',
-				_0: _elm_lang$svg$Svg$text(
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						_elm_lang$core$Basics$toString(model.currentPK),
-						_elm_lang$core$Basics$toString(model.drawing))),
-				_1: {
-					ctor: '::',
-					_0: _user$project$Main$checkAnswers(model),
-					_1: {ctor: '[]'}
-				}
+				_0: _user$project$Main$checkAnswers(model),
+				_1: {ctor: '[]'}
 			}
 		});
 };

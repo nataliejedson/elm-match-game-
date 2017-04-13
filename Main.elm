@@ -335,7 +335,7 @@ view model =
                     ++ (List.map dotToTextPoint model.groupA)
                     ++ (List.map dotToTextPoint model.groupB)
                     ), 
-            Svg.text (toString model.currentPK ++ toString model.drawing), 
+            -- Svg.text (toString model.currentPK ++ toString model.drawing),  
             checkAnswers model
         ]
         
@@ -374,7 +374,8 @@ checkAnswers model =
             Html.div [ 
                 Htmla.style 
                     [ ("color", "green") 
-                    , ("font", "bold 3em") 
+                    , ("font-size", "3em ")
+                    , ("font-family", "sans-serif")
                     ]
                 ]
                 [ text "CONGRATS!" ]
@@ -382,10 +383,13 @@ checkAnswers model =
             Html.div[ 
                 Htmla.style 
                     [ ("color", "RED") 
-                    , ("font", "bold 3em ") 
+                    , ("font-size", "3em ") 
+                    , ("font-family", "sans-serif")
                     ]
                 ]
                 [ text "TRY AGAIN." ]
+
+
         
 --SUBSCRIPTIONS
 
