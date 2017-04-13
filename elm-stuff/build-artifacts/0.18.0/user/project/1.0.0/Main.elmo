@@ -194,6 +194,25 @@ var _user$project$Main$update = F2(
 				};
 		}
 	});
+var _user$project$Main$textLeftOrRight = F2(
+	function (x, key) {
+		return A2(
+			_elm_lang$core$List$member,
+			key,
+			{
+				ctor: '::',
+				_0: 1,
+				_1: {
+					ctor: '::',
+					_0: 2,
+					_1: {
+						ctor: '::',
+						_0: 3,
+						_1: {ctor: '[]'}
+					}
+				}
+			}) ? (x - 80) : (x + 25);
+	});
 var _user$project$Main$makeText = F3(
 	function (x, y, caption) {
 		return A2(
@@ -364,7 +383,11 @@ var _user$project$Main$makeTextPoint = F4(
 				_0: A3(_user$project$Main$makePoint, x, y, key),
 				_1: {
 					ctor: '::',
-					_0: A3(_user$project$Main$makeText, x + 15, y - 1, caption),
+					_0: A3(
+						_user$project$Main$makeText,
+						A2(_user$project$Main$textLeftOrRight, x, key),
+						y - 15,
+						caption),
 					_1: {ctor: '[]'}
 				}
 			});

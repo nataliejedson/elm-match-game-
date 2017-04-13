@@ -91,14 +91,22 @@ makeText x y caption =
         ]
 
 
-makeTextPoint : Int -> Int -> Int -> String -> Svg Msg
+makeTextPoint : Int -> Int -> Int -> String ->  Svg Msg
 makeTextPoint x y key caption =
     Svg.g
         [ Sevents.onClick (ToggleDrawing)
         ]
         [ makePoint x y key
-        , makeText (x + 15) (y - 1) caption
+        , makeText (textLeftOrRight x key) (y - 15) caption
         ]
+
+--this wil lneed to be improved
+textLeftOrRight: Int -> Int ->  Int 
+textLeftOrRight x key  = 
+    if List.member key [1, 2, 3] then 
+        x- 80
+    else 
+        x + 25
 
 
 dotToTextPoint : Dot -> Svg Msg
