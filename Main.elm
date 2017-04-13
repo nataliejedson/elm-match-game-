@@ -310,7 +310,7 @@ view model =
                         , Sattr.y1 <| toString <| (Tuple.second firstDot.position)
                         , Sattr.x2 <| toString <| (Tuple.first firstDot.lineEndPosition)
                         , Sattr.y2 <| toString <| (Tuple.second firstDot.lineEndPosition)
-                        , Sattr.stroke "red"
+                        , Sattr.stroke (answerLineColor model)
                         , Sattr.strokeWidth "5"
                         , Sattr.z "-1"
                         ] [] )
@@ -319,7 +319,7 @@ view model =
                         , Sattr.y1 <| toString <| (Tuple.second secondDot.position)
                         , Sattr.x2 <| toString <| (Tuple.first secondDot.lineEndPosition)
                         , Sattr.y2 <| toString <| (Tuple.second secondDot.lineEndPosition)
-                        , Sattr.stroke "red"
+                        , Sattr.stroke (answerLineColor model)
                         , Sattr.strokeWidth "5"
                         , Sattr.z "-1"
                         ] [] )
@@ -328,7 +328,7 @@ view model =
                         , Sattr.y1 <| toString <| (Tuple.second thirdDot.position)
                         , Sattr.x2 <| toString <| (Tuple.first thirdDot.lineEndPosition)
                         , Sattr.y2 <| toString <| (Tuple.second thirdDot.lineEndPosition)
-                        , Sattr.stroke "red"
+                        , Sattr.stroke (answerLineColor model)
                         , Sattr.strokeWidth "5"
                         , Sattr.z "-1"
                         ] [] )
@@ -376,19 +376,35 @@ checkAnswers model =
                     [ ("color", "green") 
                     , ("font-size", "3em ")
                     , ("font-family", "sans-serif")
+                    , ("width", "100%")
+                    , ("text-align", "center")
                     ]
                 ]
-                [ text "CONGRATS!" ]
+                [ text "Great job!" ]
         else 
             Html.div[ 
                 Htmla.style 
                     [ ("color", "RED") 
                     , ("font-size", "3em ") 
                     , ("font-family", "sans-serif")
+                    , ("width", "100%")
+                    , ("text-align", "center")
                     ]
                 ]
-                [ text "TRY AGAIN." ]
+                [ text "Why don't you try again?" ]
 
+answerLineColor: Model -> String
+answerLineColor model = 
+    let
+        responseList = getResponseList model 
+        linesMadeList = List.filter lineHasBeenMade responseList 
+    in    
+        if (List.length responseList) /= (List.length linesMadeList) then  
+            "black"
+        else if getResponseList model == (model.answerList) then 
+            "green"
+        else 
+            "red"
 
         
 --SUBSCRIPTIONS

@@ -33,7 +33,15 @@ var _user$project$Main$checkAnswers = function (model) {
 						_1: {
 							ctor: '::',
 							_0: {ctor: '_Tuple2', _0: 'font-family', _1: 'sans-serif'},
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'width', _1: '100%'},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'text-align', _1: 'center'},
+									_1: {ctor: '[]'}
+								}
+							}
 						}
 					}
 				}),
@@ -41,7 +49,7 @@ var _user$project$Main$checkAnswers = function (model) {
 		},
 		{
 			ctor: '::',
-			_0: _elm_lang$svg$Svg$text('CONGRATS!'),
+			_0: _elm_lang$svg$Svg$text('Great job!'),
 			_1: {ctor: '[]'}
 		}) : A2(
 		_elm_lang$html$Html$div,
@@ -57,7 +65,15 @@ var _user$project$Main$checkAnswers = function (model) {
 						_1: {
 							ctor: '::',
 							_0: {ctor: '_Tuple2', _0: 'font-family', _1: 'sans-serif'},
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'width', _1: '100%'},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'text-align', _1: 'center'},
+									_1: {ctor: '[]'}
+								}
+							}
 						}
 					}
 				}),
@@ -65,9 +81,18 @@ var _user$project$Main$checkAnswers = function (model) {
 		},
 		{
 			ctor: '::',
-			_0: _elm_lang$svg$Svg$text('TRY AGAIN.'),
+			_0: _elm_lang$svg$Svg$text('Why don\'t you try again?'),
 			_1: {ctor: '[]'}
 		}));
+};
+var _user$project$Main$answerLineColor = function (model) {
+	var responseList = _user$project$Main$getResponseList(model);
+	var linesMadeList = A2(_elm_lang$core$List$filter, _user$project$Main$lineHasBeenMade, responseList);
+	return (!_elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$List$length(responseList),
+		_elm_lang$core$List$length(linesMadeList))) ? 'black' : (_elm_lang$core$Native_Utils.eq(
+		_user$project$Main$getResponseList(model),
+		model.answerList) ? 'green' : 'red');
 };
 var _user$project$Main$updateLineEndPosition = F2(
 	function (pos, dot) {
@@ -395,7 +420,8 @@ var _user$project$Main$view = function (model) {
 													_elm_lang$core$Tuple$second(firstDot.lineEndPosition))),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$svg$Svg_Attributes$stroke('red'),
+												_0: _elm_lang$svg$Svg_Attributes$stroke(
+													_user$project$Main$answerLineColor(model)),
 												_1: {
 													ctor: '::',
 													_0: _elm_lang$svg$Svg_Attributes$strokeWidth('5'),
@@ -438,7 +464,8 @@ var _user$project$Main$view = function (model) {
 														_elm_lang$core$Tuple$second(secondDot.lineEndPosition))),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$svg$Svg_Attributes$stroke('red'),
+													_0: _elm_lang$svg$Svg_Attributes$stroke(
+														_user$project$Main$answerLineColor(model)),
 													_1: {
 														ctor: '::',
 														_0: _elm_lang$svg$Svg_Attributes$strokeWidth('5'),
@@ -481,7 +508,8 @@ var _user$project$Main$view = function (model) {
 															_elm_lang$core$Tuple$second(thirdDot.lineEndPosition))),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$svg$Svg_Attributes$stroke('red'),
+														_0: _elm_lang$svg$Svg_Attributes$stroke(
+															_user$project$Main$answerLineColor(model)),
 														_1: {
 															ctor: '::',
 															_0: _elm_lang$svg$Svg_Attributes$strokeWidth('5'),
