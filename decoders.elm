@@ -7,6 +7,8 @@ import Json.Decode as DC exposing (..)
 import List.Extra as Lextra exposing (..)
 import Html exposing (..)
 
+--THIS CODE DOESN'T COMPILE
+
 
 --DECODERS 
 
@@ -25,8 +27,6 @@ gameItemDecoder =
         |> required "data" string 
         |> required "game_item" int
 
-
---Decode.decodeString (Decode.list user) ""
 
 jsonString: String
 jsonString = 
