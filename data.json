@@ -3,7 +3,7 @@
         "id": 1,
         "name": "left",
         "file": null,
-        "data": "A word",
+        "data": "a",
         "game": 2,
         "game_item": 6
     },
@@ -11,7 +11,7 @@
         "id": 2,
         "name": "left",
         "file": null,
-        "data": "A definition for word",
+        "data": "b",
         "game": 2,
         "game_item": 4
     },
@@ -19,7 +19,7 @@
         "id": 3,
         "name": "left",
         "file": null,
-        "data": "Another word",
+        "data": "c",
         "game": 2,
         "game_item": 5
     },
@@ -27,7 +27,7 @@
         "id": 4,
         "name": "right",
         "file": null,
-        "data": "The definition for the other word",
+        "data": "b",
         "game": 2,
         "game_item": 2
     }, 
@@ -35,7 +35,7 @@
         "id": 5, 
         "name": "right", 
         "file": null,
-        "data": "The definition for the other word",
+        "data": "c",
         "game": 2,
         "game_item": 3
     }, 
@@ -43,7 +43,7 @@
         "id": 6, 
         "name": "right", 
         "file": null,
-        "data": "The definition for the other word",
+        "data": "a",
         "game": 2,
         "game_item": 1
     }

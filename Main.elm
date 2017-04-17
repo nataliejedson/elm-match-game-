@@ -97,16 +97,16 @@ makeTextPoint x y key caption =
         [ Sevents.onClick (ToggleDrawing)
         ]
         [ makePoint x y key
-        , makeText (textLeftOrRight x key) (y - 15) caption
+        , makeText (textLeftOrRight x key) (y) caption
         ]
 
 --this wil lneed to be improved
 textLeftOrRight: Int -> Int ->  Int 
 textLeftOrRight x key  = 
     if List.member key [1, 2, 3] then 
-        x- 80
+        x- 85
     else 
-        x + 25
+        x + 30
 
 
 dotToTextPoint : Dot -> Svg Msg
@@ -305,7 +305,13 @@ view model =
 
     
     in
-        Html.div []{--
+        Html.div [
+            Htmla.style [
+                ("width","1000px")
+                ]
+            ]
+                {--
+            }
             [ ("left", )
  
             ] --}

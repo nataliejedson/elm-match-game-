@@ -1,0 +1,57 @@
+var _user$project$Decoders$getAnswerTupleFromGameItem = function (gameItem) {
+	return {ctor: '_Tuple2', _0: gameItem.id, _1: gameItem.game_item};
+};
+var _user$project$Decoders$isMemberGroupB = function (gameItem) {
+	return _elm_lang$core$Native_Utils.eq(gameItem.name, 'left') ? false : true;
+};
+var _user$project$Decoders$isMemberGroupA = function (gameItem) {
+	return _elm_lang$core$Native_Utils.eq(gameItem.name, 'left') ? true : false;
+};
+var _user$project$Decoders$createAnswerTuples = function (giList) {
+	var onlyTakeLeftItems = A2(_elm_lang$core$List$filter, _user$project$Decoders$isMemberGroupA, giList);
+	return A2(_elm_lang$core$List$map, _user$project$Decoders$getAnswerTupleFromGameItem, onlyTakeLeftItems);
+};
+var _user$project$Decoders$gameItemToDot = function (gameItem) {
+	var newDot = {
+		pk: gameItem.id,
+		fk: 0,
+		text: gameItem.data,
+		position: {ctor: '_Tuple2', _0: 0, _1: 0},
+		lineEndPosition: {ctor: '_Tuple2', _0: 0, _1: 0}
+	};
+	return newDot;
+};
+var _user$project$Decoders$createGroupA = function (giList) {
+	return A2(
+		_elm_lang$core$List$map,
+		_user$project$Decoders$gameItemToDot,
+		A2(_elm_lang$core$List$filter, _user$project$Decoders$isMemberGroupA, giList));
+};
+var _user$project$Decoders$createGroupB = function (giList) {
+	return A2(
+		_elm_lang$core$List$map,
+		_user$project$Decoders$gameItemToDot,
+		A2(_elm_lang$core$List$filter, _user$project$Decoders$isMemberGroupB, giList));
+};
+var _user$project$Decoders$jsonString = '[\n    {\n        \"id\": 1,\n        \"name\": \"left\",\n        \"file\": null,\n        \"data\": \"a\",\n        \"game\": 2,\n        \"game_item\": 6\n    },\n    {\n        \"id\": 2,\n        \"name\": \"left\",\n        \"file\": null,\n        \"data\": \"b\",\n        \"game\": 2,\n        \"game_item\": 4\n    },\n    {\n        \"id\": 3,\n        \"name\": \"left\",\n        \"file\": null,\n        \"data\": \"c\",\n        \"game\": 2,\n        \"game_item\": 5\n    },\n    {\n        \"id\": 4,\n        \"name\": \"right\",\n        \"file\": null,\n        \"data\": \"b\",\n        \"game\": 2,\n        \"game_item\": 2\n    }, \n    {   \n        \"id\": 5, \n        \"name\": \"right\", \n        \"file\": null,\n        \"data\": \"c\",\n        \"game\": 2,\n        \"game_item\": 3\n    }, \n    {\n        \"id\": 6, \n        \"name\": \"right\", \n        \"file\": null,\n        \"data\": \"a\",\n        \"game\": 2,\n        \"game_item\": 1\n    }\n]';
+var _user$project$Decoders$GameItem = F4(
+	function (a, b, c, d) {
+		return {id: a, name: b, data: c, game_item: d};
+	});
+var _user$project$Decoders$gameItemDecoder = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'game_item',
+	_elm_lang$core$Json_Decode$int,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'data',
+		_elm_lang$core$Json_Decode$string,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'name',
+			_elm_lang$core$Json_Decode$string,
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+				'id',
+				_elm_lang$core$Json_Decode$int,
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Decoders$GameItem)))));

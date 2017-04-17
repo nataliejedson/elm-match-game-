@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>The Match Game</title>
+	<style type="text/css">
+		.title {
+			font-size: 3em; 
+			font-family: sans-serif;
+			text-align: center; 
+		}
+		.main {
+			margin: auto;
+		}
+	</style>
+</head>
+<body>
+<!-- <div class="title"><h1>THE MATCH GAME</h1></div> -->
+<div id="main"></div>
+<script src="main.js"></script>
+<script type="text/javascript" >     
+	var node = document.getElementById('main');
+    var app = Elm.Main.embed(node);
+</script>
+</body>
+</html>
